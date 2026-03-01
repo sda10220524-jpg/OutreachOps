@@ -1,3 +1,4 @@
+codex/build-firebase-mvp-for-outreachops
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
 import { getAnalytics, isSupported } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-analytics.js";
 import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
@@ -62,4 +63,15 @@ export const OO = {
   serverTimestamp,
   Timestamp,
   updateDoc
+
+// Firebase placeholder config for hackathon handoff.
+// Replace with real keys before deployment.
+export const firebaseConfig = {
+  apiKey: 'REPLACE_ME',
+  authDomain: 'REPLACE_ME.firebaseapp.com',
+  projectId: 'REPLACE_ME',
+  storageBucket: 'REPLACE_ME.appspot.com',
+  messagingSenderId: 'REPLACE_ME',
+  appId: 'REPLACE_ME'
+main
 };

@@ -1,6 +1,7 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+codex/build-firebase-mvp-for-outreachops
 
     function noPreciseLocation(data) {
       return !("lat" in data || "lng" in data || "latitude" in data || "longitude" in data || "coords" in data || "location" in data || "address" in data);
@@ -16,11 +17,16 @@ service cloud.firestore {
 
     function logKeysOk(data) {
       return data.keys().hasOnly(["created_at", "grid_id", "action", "outcome", "org_id", "mode"]);
+
+    function hasForbiddenLocation() {
+      return request.resource.data.keys().hasAny(['lat', 'lng', 'latitude', 'longitude', 'coords', 'location']);
+main
     }
 
     match /signals/{signalId} {
       allow read: if false;
       allow create: if request.auth != null
+codex/build-firebase-mvp-for-outreachops
         && noPreciseLocation(request.resource.data)
         && signalKeysOk(request.resource.data)
         && request.resource.data.grid_id is string
@@ -47,11 +53,35 @@ service cloud.firestore {
       allow create: if request.auth != null
         && noPreciseLocation(request.resource.data)
         && logKeysOk(request.resource.data)
+
+        && !hasForbiddenLocation()
+        && request.resource.data.grid_id is string
+        && request.resource.data.source_type in ['public', 'provider', 'org']
+        && request.resource.data.category is string
+        && request.resource.data.status in ['open', 'closed'];
+      allow update, delete: if false;
+    }
+
+    match /gridAgg/{gridId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    match /resources/{resourceId} {
+      allow read: if true;
+      allow write: if request.auth != null && !hasForbiddenLocation();
+    }
+
+    match /logs/{logId} {
+      allow read: if false;
+      allow create: if request.auth != null && !hasForbiddenLocation()
+main
         && request.resource.data.grid_id is string
         && request.resource.data.action is string
         && request.resource.data.outcome is string;
       allow update, delete: if false;
     }
+codex/build-firebase-mvp-for-outreachops
 
     match /gridAgg/{gridId} {
       allow read: if true;
@@ -62,5 +92,7 @@ service cloud.firestore {
       allow read: if true;
       allow write: if false;
     }
+
+main
   }
 }

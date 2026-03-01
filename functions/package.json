@@ -1,5 +1,6 @@
 {
   "name": "outreachops-functions",
+codex/build-firebase-mvp-for-outreachops
   "version": "1.0.0",
   "private": true,
   "main": "index.js",
@@ -13,6 +14,13 @@
   },
   "dependencies": {
     "firebase-admin": "^12.1.0",
+
+  "private": true,
+  "engines": { "node": "20" },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^12.1.1",
+main
     "firebase-functions": "^5.0.1"
   }
 }

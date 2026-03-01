@@ -1,6 +1,7 @@
 {
   "hosting": {
     "public": "public",
+codex/build-firebase-mvp-for-outreachops
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -10,15 +11,25 @@
   "firestore": {
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
+
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
+main
   },
   "functions": {
     "source": "functions"
   },
   "emulators": {
+codex/build-firebase-mvp-for-outreachops
     "auth": { "port": 9099 },
     "functions": { "port": 5001 },
     "firestore": { "port": 8080 },
     "hosting": { "port": 5000 },
+
+    "hosting": { "port": 5000 },
+    "firestore": { "port": 8080 },
+    "functions": { "port": 5001 },
+    "auth": { "port": 9099 },
+main
     "ui": { "enabled": true }
   }
 }
