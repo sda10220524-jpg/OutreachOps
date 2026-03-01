@@ -2,12 +2,60 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+codex/build-firebase-mvp-for-outreachops
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>OutreachOps</title>
+    <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" />
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+  </head>
+  <body>
+    <div class="app-shell" id="app"></div>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OutreachOps MVP</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <div id="app" class="app-shell"></div>
+    <div class="app" id="app">
+      <header class="topbar">
+        <div class="brand">
+          <img src="./assets/logo.svg" alt="OutreachOps logo" class="logo" />
+          <div>
+            <h1>OutreachOps</h1>
+            <p>Grid-only outreach operations demo</p>
+          </div>
+        </div>
+        <div class="controls">
+          <label>Demo role
+            <select id="roleSelect">
+              <option value="public">Public</option>
+              <option value="provider">Provider</option>
+              <option value="org">Org</option>
+            </select>
+          </label>
+          <span class="chip">Time Window: 7 days</span>
+          <button id="refreshBtn">Refresh</button>
+        </div>
+      </header>
+
+      <nav class="tabs">
+        <button data-tab="dashboard" class="active">Dashboard</button>
+        <button data-tab="request">Request</button>
+        <button data-tab="safety">Safety</button>
+      </nav>
+
+      <main>
+        <section id="dashboard" class="tab-panel active"></section>
+        <section id="request" class="tab-panel"></section>
+        <section id="safety" class="tab-panel"></section>
+      </main>
+    </div>
+
+    <div id="modalRoot"></div>
+    <div id="toastRoot"></div>
+
+main
     <script type="module" src="./app.js"></script>
   </body>
 </html>

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">OutreachOps Logo</title>
+  <desc id="desc">Grid-first outreach operations logo with teal tiles and orange highlight.</desc>
+  <rect width="256" height="256" rx="36" fill="#f3f4f6"/>
+  <g transform="translate(28 56)">
+    <g fill="#2f8e97">
+      <rect x="0" y="34" width="40" height="24" rx="4" transform="skewX(-12)"/>
+      <rect x="46" y="34" width="40" height="24" rx="4" transform="skewX(-12)"/>
+      <rect x="92" y="34" width="40" height="24" rx="4" transform="skewX(-12)"/>
+      <rect x="138" y="34" width="40" height="24" rx="4" transform="skewX(-12)"/>
+      <rect x="0" y="64" width="40" height="24" rx="4" transform="skewX(-12)"/>
+      <rect x="46" y="64" width="40" height="24" rx="4" transform="skewX(-12)"/>
+      <rect x="92" y="64" width="40" height="24" rx="4" transform="skewX(-12)"/>
+      <rect x="138" y="64" width="40" height="24" rx="4" transform="skewX(-12)"/>
+      <rect x="0" y="94" width="40" height="24" rx="4" transform="skewX(-12)"/>
+      <rect x="46" y="94" width="40" height="24" rx="4" transform="skewX(-12)"/>
+      <rect x="92" y="94" width="40" height="24" rx="4" transform="skewX(-12)"/>
+      <rect x="138" y="94" width="40" height="24" rx="4" transform="skewX(-12)"/>
+    </g>
+    <g fill="#e5a237">
+      <rect x="92" y="34" width="40" height="24" rx="4" transform="skewX(-12)"/>
+      <rect x="138" y="94" width="40" height="24" rx="4" transform="skewX(-12)"/>
+    </g>
+    <circle cx="34" cy="104" r="14" fill="#e5a237"/>
+    <path d="M25 104h18l4 8h-7l-1.8 5h-6.4l-1.8-5h-7z" fill="#fff"/>
+    <circle cx="176" cy="46" r="20" fill="#e5e7eb"/>
+    <path d="M172 34h8v8h8v8h-8v8h-8v-8h-8v-8h8z" fill="#2f8e97"/>
+    <path d="M76 8c-10.2 0-18.4 8.2-18.4 18.4 0 14 18.4 34 18.4 34s18.4-20 18.4-34C94.4 16.2 86.2 8 76 8zm0 26a7.6 7.6 0 1 1 0-15.2 7.6 7.6 0 0 1 0 15.2z" fill="#2f8e97"/>
+  </g>
+</svg>
