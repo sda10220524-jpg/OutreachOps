@@ -1,10 +1,26 @@
 {
   "name": "outreachops-functions",
+codex/build-firebase-mvp-for-outreachops
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.js",
+  "engines": {
+    "node": "20"
+  },
+  "scripts": {
+    "serve": "firebase emulators:start --only functions",
+    "deploy": "firebase deploy --only functions",
+    "lint": "echo 'No lint configured'"
+  },
+  "dependencies": {
+    "firebase-admin": "^12.1.0",
+
   "private": true,
   "engines": { "node": "20" },
   "main": "index.js",
   "dependencies": {
     "firebase-admin": "^12.1.1",
+main
     "firebase-functions": "^5.0.1"
   }
 }

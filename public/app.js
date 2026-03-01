@@ -1,3 +1,17 @@
+codex/build-firebase-mvp-for-outreachops
+import { OO } from "./firebase.js";
+import { createEngine } from "./store.js";
+import { initUI, setData } from "./ui.js";
+
+const root = document.getElementById("app");
+const engine = createEngine(OO);
+
+initUI(root, engine);
+setData(engine.getSnapshot());
+engine.setRealtime((snapshot) => {
+  setData(snapshot);
+});
+
 import { addLog, addSignal, getState, resetSeed, updateResource } from './store.js';
 import { bindTabs, modal, toast } from './ui.js';
 
@@ -161,3 +175,4 @@ document.getElementById('roleSelect').addEventListener('change', (e) => { appSta
 document.getElementById('refreshBtn').addEventListener('click', () => { refreshData(); render(); toast('Refreshed'); });
 document.getElementById('refreshBtn').addEventListener('contextmenu', (e) => { e.preventDefault(); resetSeed(); refreshData(); render(); toast('Seed reset'); });
 render();
+main
