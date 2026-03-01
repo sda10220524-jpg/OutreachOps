@@ -7,6 +7,7 @@ const db = admin.firestore();
 const WINDOW_DAYS = 7;
 const APG_K = 10;
 const EPSILON = 0.1;
+const CLEANUP_BATCH_SIZE = 400;
 
 function since(days) {
   return admin.firestore.Timestamp.fromMillis(Date.now() - days * 24 * 60 * 60 * 1000);
@@ -71,6 +72,7 @@ async function recomputeMetrics() {
   const firstLogByGrid = {};
   logSnap.docs.forEach((d) => {
     const l = d.data();
+    if (!l.created_at) return;
     if (!firstLogByGrid[l.grid_id] || l.created_at.toMillis() < firstLogByGrid[l.grid_id].toMillis()) {
       firstLogByGrid[l.grid_id] = l.created_at;
     }
@@ -82,6 +84,7 @@ async function recomputeMetrics() {
 
   sigSnap.docs.forEach((d) => {
     const s = d.data();
+    if (!s.created_at) return;
     const first = firstLogByGrid[s.grid_id];
     if (!first) backlog += 1;
     if (first) {
@@ -100,6 +103,12 @@ async function recomputeMetrics() {
   }, { merge: true });
 }
 
+async function recomputeAllGridsAndMetrics() {
+  const gridsSnap = await db.collection("gridAgg").get();
+  await Promise.all(gridsSnap.docs.map((d) => recomputeGrid(d.id)));
+  await recomputeMetrics();
+}
+
 exports.onSignalCreate = functions.firestore.document("signals/{id}").onCreate(async (snap) => {
   await snap.ref.set({
     expireAt: admin.firestore.Timestamp.fromMillis(Date.now() + WINDOW_DAYS * 24 * 60 * 60 * 1000)
@@ -107,6 +116,14 @@ exports.onSignalCreate = functions.firestore.document("signals/{id}").onCreate(a
 
   const signal = snap.data();
   await recomputeGrid(signal.grid_id);
+  await recomputeMetrics();
+});
+
+exports.onSignalDelete = functions.firestore.document("signals/{id}").onDelete(async (snap) => {
+  const signal = snap.data();
+  if (signal?.grid_id) {
+    await recomputeGrid(signal.grid_id);
+  }
   await recomputeMetrics();
 });
 
@@ -120,9 +137,33 @@ exports.onOutreachLogWrite = functions.firestore.document("outreachLogs/{id}").o
 });
 
 exports.cleanupExpiredSignals = functions.pubsub.schedule("every 24 hours").onRun(async () => {
-  const expired = await db.collection("signals").where("expireAt", "<=", admin.firestore.Timestamp.now()).get();
-  const batch = db.batch();
-  expired.docs.forEach((d) => batch.delete(d.ref));
-  await batch.commit();
+  const expiredGridIds = new Set();
+
+  while (true) {
+    const expired = await db.collection("signals")
+      .where("expireAt", "<=", admin.firestore.Timestamp.now())
+      .limit(CLEANUP_BATCH_SIZE)
+      .get();
+
+    if (expired.empty) break;
+
+    const batch = db.batch();
+    expired.docs.forEach((d) => {
+      const signal = d.data();
+      if (signal?.grid_id) expiredGridIds.add(signal.grid_id);
+      batch.delete(d.ref);
+    });
+    await batch.commit();
+
+    if (expired.size < CLEANUP_BATCH_SIZE) break;
+  }
+
+  await Promise.all(Array.from(expiredGridIds).map((gridId) => recomputeGrid(gridId)));
+  await recomputeMetrics();
   return null;
+});
+
+exports.recomputeAll = functions.https.onRequest(async (_req, res) => {
+  await recomputeAllGridsAndMetrics();
+  res.status(200).send("ok");
 });

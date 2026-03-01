@@ -71,6 +71,7 @@ function topBar() {
       <article class="kpi-card"><p>Backlog</p><h3 class="metric-value">${state.data.metrics.backlog}</h3></article>
       <article class="kpi-card"><p>Avg response time</p><h3 class="metric-value">${state.data.metrics.avgResponseMin} min</h3></article>
     </section>
+    ${state.data.backendBanner ? `<div class="backend-banner">${state.data.backendBanner}</div>` : ""}
   `;
 }
 

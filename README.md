@@ -45,3 +45,13 @@ OutreachOps is a **grid-aggregate-only** outreach operations dashboard: it suppo
 - No per-person profile handling.
 - No routing/navigation features.
 - No raw public signal feed.
+
+
+## Realtime listener strategy (rules-safe)
+- Client subscribes to `gridAgg`, `resources`, and `meta/metrics` (aggregated/allowed reads).
+- Client does **not** subscribe to raw `signals`/`outreachLogs` collections when rules deny those reads.
+- If read fails with `permission-denied`, app shows a small **Backend read blocked** banner and keeps write paths active.
+- Mock fallback is only enabled for backend availability errors (for example `unavailable`).
+
+## Cleanup consistency
+- Functions include `onSignalDelete` recomputation and chunked scheduled cleanup (`<=400` deletes per batch) with post-cleanup aggregate/metrics recompute so expired signals are not counted.
