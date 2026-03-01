@@ -7,23 +7,6 @@
         { "fieldPath": "grid_id", "order": "ASCENDING" },
         { "fieldPath": "created_at", "order": "DESCENDING" }
       ]
-codex/build-firebase-mvp-for-outreachops
-    },
-    {
-      "collectionGroup": "signals",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "expireAt", "order": "ASCENDING" }
-      ]
-    },
-    {
-      "collectionGroup": "outreachLogs",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "grid_id", "order": "ASCENDING" },
-        { "fieldPath": "created_at", "order": "ASCENDING" }
-      ]
-main
     }
   ],
   "fieldOverrides": []
